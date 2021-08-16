@@ -119,6 +119,7 @@ import copy
 import itertools
 import functools
 from enum import Enum, IntEnum
+import unittest
 
 import numpy as np
 from numpy.linalg import multi_dot
@@ -1039,7 +1040,10 @@ class Observable(Operator):
     def __init__(self, *params, wires=None, do_queue=True, id=None):
         # extract the arguments
         if wires is None:
-            wires = params[-1]
+            try:
+              wires = params[-1]
+            except IndexError: 
+              raise Exception("Can only access when arguments are passed.")
             params = params[:-1]
 
         super().__init__(*params, wires=wires, do_queue=do_queue, id=id)
